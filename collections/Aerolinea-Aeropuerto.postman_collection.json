@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "82ff46d0-9884-46ac-bfea-6db1cf09a4d0",
+		"name": "Aerolinea-Aeropuerto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23039942"
+	},
+	"item": [
+		{
+			"name": "Precondición para prueba 1: creación de aeropuerto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aeropuerto_global_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El Dorado\",\n    \"codigo\": \"BOG\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Bogotá\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Precondición para prueba 2: creación de aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aerolinea_global_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Tovar Airlines\",\n    \"descripcion\": \"La mejor aerolínea del país\",\n    \"fechaDeFundacion\": \"1997-12-10\",\n    \"paginaWeb\": \"http://www.tovarailines.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar Aeropuerto a Aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"   pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/{{aeropuerto_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						"{{aeropuerto_global_id}}"
+					]
+				},
+				"description": "Asocia una estrella michelín a un restaurante."
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar Aeropuerto inválido a Aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id especificado no fue encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				},
+				"description": "Asocia una estrella michelín a un restaurante."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los aeropuertos que cubre una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Number of aeropuertos > ' + 0, function () {",
+							"   var data = pm.response.json()",
+							"   pm.expect(data.length).to.greaterThan(0)",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Precondición para prueba 3 creación de aeropuerto no asociado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aeropuerto_fake_global_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El Plateado\",\n    \"codigo\": \"TUN\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Tunja\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un aeropuerto que no está asociado a una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"   pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no está asociada a la aerolinea\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/{{aeropuerto_fake_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						"{{aeropuerto_fake_global_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Precondición para prueba 3 creación de aeropuerto para actualizar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aeropuerto_alternate_global_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Barajas\",\n    \"codigo\": \"MAD\",\n    \"pais\": \"España\",\n    \"ciudad\": \"Madrid\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar los aeropuertos asociados a una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    \"{{aeropuerto_alternate_global_id}}\"\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar los aeropuertos asociados a una aerolinea con un aeropuerto inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no fue encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    \"00000000-0000-0000-0000-000000000000\"\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un aeropuerto previamente asociado a una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"   pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/{{aeropuerto_alternate_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						"{{aeropuerto_alternate_global_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Precondición para prueba 4 creación de aeropuerto no asociado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aeropuerto_alternate_global_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Barajas\",\n    \"codigo\": \"MAD\",\n    \"pais\": \"España\",\n    \"ciudad\": \"Madrid\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un aeropuerto que no estaba previamente asociado a una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"   pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no está asociada a la aerolinea\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aerolineas/{{aerolinea_global_id}}/aeropuertos/{{aeropuerto_alternate_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aerolineas",
+						"{{aerolinea_global_id}}",
+						"aeropuertos",
+						"{{aeropuerto_alternate_global_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "restaurante_id",
+			"value": "1"
+		},
+		{
+			"key": "estrella-id-1",
+			"value": "11"
+		},
+		{
+			"key": "estrella-id-2",
+			"value": "21"
+		}
+	]
+}

@@ -17,7 +17,7 @@ export class AerolineaAeropuertoService {
         private readonly aeropuertoRepository: Repository<AeropuertoEntity>
     ) {}
 
-    async addAeropuertoAerolinea(aerolineaId: string, aeropuertoId: string): Promise<AeropuertoEntity> {
+    async addAeropuertoAerolinea(aerolineaId: string, aeropuertoId: string): Promise<AerolineaEntity> {
         const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}, relations: ["aerolineas"]});
         if (!aeropuerto)
           throw new BusinessErrorException("El aeropuerto con el id especificado no fue encontrado", BusinessError.NOT_FOUND);
@@ -28,7 +28,7 @@ export class AerolineaAeropuertoService {
     
         aerolinea.aeropuertos = [...aerolinea.aeropuertos, aeropuerto];
         aeropuerto.aerolineas = [...aeropuerto.aerolineas, aerolinea];
-        return await this.aerolineaRepository.save(aeropuerto);
+        return await this.aerolineaRepository.save(aerolinea);
       }
     
     async findAeropuertoByAerolineaIdAeropuertoId(aerolineaId: string, aeropuertoId: string): Promise<AeropuertoEntity> {

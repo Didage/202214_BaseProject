@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 // eslint-disable-next-line prettier/prettier
 import { BusinessError, BusinessErrorException } from '../errores/business_errors';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { AeropuertoEntity } from './aeropuerto.entity';
 
 @Injectable()

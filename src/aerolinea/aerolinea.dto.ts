@@ -9,8 +9,9 @@ export class AerolineaDto {
   @IsNotEmpty()
   readonly descripcion: string;
 
+  @IsString()
   @IsNotEmpty()
-  readonly fechaDeFundacion: Date;
+  readonly fechaDeFundacion: string;
 
   @IsUrl()
   @IsNotEmpty()

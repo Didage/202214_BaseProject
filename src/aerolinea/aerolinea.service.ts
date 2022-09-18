@@ -33,7 +33,9 @@ export class AerolineaService {
 
   async create(aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
     const fechaActual = new Date();
-    if (aerolinea.fechaDeFundacion > fechaActual) {
+    const fechaDeFundacion = new Date(aerolinea.fechaDeFundacion);
+
+    if (fechaDeFundacion.getTime() > fechaActual.getTime()) {
       throw new BusinessErrorException(
         'La fecha de fundación de la aerolínea no es válida.',
         BusinessError.PRECONDITION_FAILED,
@@ -55,7 +57,8 @@ export class AerolineaService {
       );
 
     const fechaActual = new Date();
-    if (aerolinea.fechaDeFundacion > fechaActual) {
+    const fechaDeFundacion = new Date(aerolinea.fechaDeFundacion);
+    if (fechaDeFundacion.getTime() > fechaActual.getTime()) {
       throw new BusinessErrorException(
         'La fecha de fundación de la aerolínea no es válida.',
         BusinessError.PRECONDITION_FAILED,

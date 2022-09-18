@@ -1,0 +1,410 @@
+{
+	"info": {
+		"_postman_id": "cb6d9ed4-2428-43b3-a61e-89f0116dbde2",
+		"name": "Aeropuerto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23039942"
+	},
+	"item": [
+		{
+			"name": "Crear Aeropuerto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aeropuerto_global_id\", data.id);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"   pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El Dorado\",\n    \"codigo\": \"BOG\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Bogotá\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				},
+				"description": "Crea un restaurante nuevo. Retorna un mensaje de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Aeropuerto Inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"   pm.response.to.have.status(412);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El Dorado\",\n    \"codigo\": \"BOGOT\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Bogotá\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				},
+				"description": "Crea un restaurante nuevo. Retorna un mensaje de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los  Aeropuertos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Number of aeropuertos > ' + 0, function () {",
+							"   var data = pm.response.json()",
+							"   pm.expect(data.length).to.greaterThan(0)",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos"
+					]
+				},
+				"description": "Recupera una colección con todos los restaurantes de la aplicación. Retorna un código de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un Aeropuerto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/{{aeropuerto_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"{{aeropuerto_global_id}}"
+					]
+				},
+				"description": "Recupera un restaurante en específico de la colección."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Aeropuerto inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no fue encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				},
+				"description": "Intenta recuperar un restaurante inexistente. Retorna un código de error al no encontrar el restaurante."
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un Aeropuerto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El plateado\",\n    \"codigo\": \"TUN\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Tunja\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/{{aeropuerto_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"{{aeropuerto_global_id}}"
+					]
+				},
+				"description": "Actualiza la información de un restaurante. Retorna un código de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un Aeropuerto Invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no fue encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"El plateado\",\n    \"codigo\": \"TUN\",\n    \"pais\": \"Colombia\",\n    \"ciudad\": \"Tunja\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				},
+				"description": "Intenta actualizar un restaurante que no existe"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Aeropuerto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"   pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/{{aeropuerto_global_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"{{aeropuerto_global_id}}"
+					]
+				},
+				"description": "Borra un restaurante. Retorna un código de éxito sin cuerpo."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Aeropuerto inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"El aeropuerto con el id dado no fue encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/aeropuertos/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"aeropuertos",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				},
+				"description": "Intenta borrar un restaurante que no existe. Retorna un código de error al no encontrar el recurso."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "restaurante_id",
+			"value": "1"
+		},
+		{
+			"key": "estrella-id-1",
+			"value": "11"
+		},
+		{
+			"key": "estrella-id-2",
+			"value": "21"
+		}
+	]
+}

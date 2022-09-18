@@ -30,7 +30,7 @@ export class AerolineaAeropuertoController {
     }
 
     @Put(':aerolineaId/aeropuertos')
-    async associateAerolineaAeropuertos(@Body() aeropuertosIds: string[], @Param('aerolineaId') aerolineaId: string,) {
+    async updateAerolineaAeropuertos(@Body() aeropuertosIds: string[], @Param('aerolineaId') aerolineaId: string,) {
         const aeropuertos: AeropuertoEntity[] = [];
         for (let i = 0; i < aeropuertosIds.length; i++) {
           const aeropuerto = await this.servicioAeropuerto.findOne(aeropuertosIds[i]);

@@ -19,7 +19,9 @@ export class AeropuertoEntity {
   @Column()
   ciudad: string;
 
-  @ManyToMany(() => AerolineaEntity, (aerolinea) => aerolinea.aeropuertos)
+  @ManyToMany(() => AerolineaEntity, (aerolinea) => aerolinea.aeropuertos, {
+    cascade: true,
+  })
   @JoinTable()
   aerolineas: AerolineaEntity[];
 }

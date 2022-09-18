@@ -67,7 +67,7 @@ describe('AerolineaService', () => {
   it('findOne should throw an exception for an invalid aerolinea', async () => {
     await expect(() => service.delete('0')).rejects.toHaveProperty(
       'message',
-      'El aerolinea con el id dado no fue encontrado',
+      'La aerolinea con el id dado no fue encontrada',
     );
   });
 
@@ -130,7 +130,7 @@ describe('AerolineaService', () => {
     };
     await expect(() => service.update('0', aerolinea)).rejects.toHaveProperty(
       'message',
-      'El aerolinea con el id dado no fue encontrado',
+      'La aerolinea con el id dado no fue encontrada',
     );
   });
 
@@ -149,7 +149,7 @@ describe('AerolineaService', () => {
     await service.delete(aerolinea.id);
     await expect(() => service.delete('0')).rejects.toHaveProperty(
       'message',
-      'El aerolinea con el id dado no fue encontrado',
+      'La aerolinea con el id dado no fue encontrada',
     );
   });
 });

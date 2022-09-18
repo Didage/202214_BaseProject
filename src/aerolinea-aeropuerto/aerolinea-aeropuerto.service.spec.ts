@@ -58,7 +58,7 @@ describe('AerolineaAeropuertoService', () => {
       descripcion: faker.lorem.sentence(),
       fechaDeFundacion: faker.date.recent(),
       paginaWeb: faker.internet.url(),
-      aeropuertos: [],
+      aeropuertos: listaAeropuertos,
     });
   };
 

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 import { Repository } from 'typeorm';
 import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
-import { BusinessError, BusinessErrorException } from 'src/errores/business_errors';
+import { BusinessError, BusinessErrorException } from '../errores/business_errors';
 
 
 @Injectable()

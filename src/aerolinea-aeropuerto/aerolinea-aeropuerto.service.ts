@@ -18,7 +18,7 @@ export class AerolineaAeropuertoService {
     ) {}
 
     async addAeropuertoAerolinea(aerolineaId: string, aeropuertoId: string): Promise<AerolineaEntity> {
-        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}, relations: ["aerolineas"]});
+        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}});
         if (!aeropuerto)
           throw new BusinessErrorException("El aeropuerto con el id especificado no fue encontrado", BusinessError.NOT_FOUND);
       
@@ -27,12 +27,11 @@ export class AerolineaAeropuertoService {
           throw new BusinessErrorException("La aerolinea con el id especificado no fue encontrada", BusinessError.NOT_FOUND);
     
         aerolinea.aeropuertos = [...aerolinea.aeropuertos, aeropuerto];
-        aeropuerto.aerolineas = [...aeropuerto.aerolineas, aerolinea];
         return await this.aerolineaRepository.save(aerolinea);
       }
     
     async findAeropuertoByAerolineaIdAeropuertoId(aerolineaId: string, aeropuertoId: string): Promise<AeropuertoEntity> {
-        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}, relations: ["aerolineas"]});
+        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}});
         if (!aeropuerto)
           throw new BusinessErrorException("El aeropuerto con el id especificado no fue encontrado", BusinessError.NOT_FOUND);
        
@@ -73,7 +72,7 @@ export class AerolineaAeropuertoService {
       }
     
     async deleteAeropuertoAerolinea(aerolineaId: string, aeropuertoId: string){
-        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}, relations: ["aerolineas"]});
+        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}});
         if (!aeropuerto)
           throw new BusinessErrorException("El aeropuerto con el id especificado no fue encontrado", BusinessError.NOT_FOUND);
     

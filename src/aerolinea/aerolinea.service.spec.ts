@@ -30,10 +30,9 @@ describe('AerolineaService', () => {
     aerolineasList = [];
     for (let i = 0; i < 5; i++) {
       const aerolinea: AerolineaEntity = await repository.save({
-        id: faker.lorem.sentence(),
         nombre: faker.lorem.sentence(),
         descripcion: faker.lorem.sentence(),
-        fechaDeFundacion: faker.date.recent(),
+        fechaDeFundacion: '2000-10-10',
         paginaWeb: faker.internet.url(),
         aeropuertos: [],
       });
@@ -76,7 +75,7 @@ describe('AerolineaService', () => {
       id: faker.lorem.sentence(),
       nombre: faker.lorem.sentence(),
       descripcion: faker.lorem.sentence(),
-      fechaDeFundacion: faker.date.recent(),
+      fechaDeFundacion: '2000-10-10',
       paginaWeb: faker.internet.url(),
       aeropuertos: [],
     };
@@ -99,7 +98,7 @@ describe('AerolineaService', () => {
     const aerolinea: AerolineaEntity = aerolineasList[0];
     aerolinea.nombre = 'New name';
     aerolinea.descripcion = 'New descripcion';
-    aerolinea.fechaDeFundacion = faker.date.recent();
+    aerolinea.fechaDeFundacion = '2000-10-10';
     aerolinea.paginaWeb = faker.internet.url();
 
     const updatedAerolinea: AerolineaEntity = await service.update(
@@ -125,7 +124,7 @@ describe('AerolineaService', () => {
       ...aerolinea,
       nombre: 'New name',
       descripcion: 'New descripcion',
-      fechaDeFundacion: faker.date.recent(),
+      fechaDeFundacion: '2000-10-10',
       paginaWeb: faker.internet.url(),
     };
     await expect(() => service.update('0', aerolinea)).rejects.toHaveProperty(

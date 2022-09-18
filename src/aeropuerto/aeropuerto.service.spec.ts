@@ -77,7 +77,6 @@ describe('AeropuertoService', () => {
       codigo: faker.random.alpha(3),
       pais: faker.lorem.word(),
       ciudad: faker.lorem.word(),
-      aerolineas: [],
     };
 
     const newAeropuerto: AeropuertoEntity = await service.create(aeropuerto);

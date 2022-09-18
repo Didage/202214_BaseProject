@@ -56,7 +56,7 @@ describe('AerolineaAeropuertoService', () => {
     aerolinea = await repositorioAerolinea.save({
       nombre: faker.lorem.sentence(),
       descripcion: faker.lorem.sentence(),
-      fechaDeFundacion: faker.date.recent(),
+      fechaDeFundacion: '2000-10-10',
       paginaWeb: faker.internet.url(),
       aeropuertos: listaAeropuertos,
     });
@@ -79,7 +79,7 @@ describe('AerolineaAeropuertoService', () => {
       await repositorioAerolinea.save({
         nombre: faker.lorem.sentence(),
         descripcion: faker.lorem.sentence(),
-        fechaDeFundacion: faker.date.recent(),
+        fechaDeFundacion: '2000-10-10',
         paginaWeb: faker.internet.url(),
         aeropuertos: [],
       });
@@ -103,7 +103,7 @@ describe('AerolineaAeropuertoService', () => {
       await repositorioAerolinea.save({
         nombre: faker.lorem.sentence(),
         descripcion: faker.lorem.sentence(),
-        fechaDeFundacion: faker.date.recent(),
+        fechaDeFundacion: '2000-10-10',
         paginaWeb: faker.internet.url(),
         aeropuertos: [],
       });
